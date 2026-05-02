@@ -8,11 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        /* ---------- RESET ---------- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; color: #2c3e50; line-height: 1.5; }
 
-        /* ---------- HEADER ---------- */
+        /* HEADER */
         .top-header {
             padding: 15px 20px;
             display: flex;
@@ -47,6 +46,7 @@
             color: #0fb5bb;
             font-size: 20px;
             transition: 0.3s;
+            text-decoration: none;
         }
         .social-icons-header a:hover { color: #c0392b; transform: translateY(-2px); }
         .header-link {
@@ -62,7 +62,7 @@
         .header-link:hover { color: #c0392b; }
         .user-icon { font-size: 28px; color: #0fb5bb; }
 
-        /* ---------- HAMBURGER MENU (mobil) + NAVBAR ---------- */
+        /* HAMBURGER MENU */
         .main-nav {
             background: #0fb5bb;
             position: sticky;
@@ -101,14 +101,14 @@
         }
         .nav-links li a:hover { background: #c0392b; }
 
-        /* ---------- ANA DÜZEN ---------- */
+        /* LAYOUT */
         .layout {
             display: flex;
             padding: 30px 20px;
             gap: 30px;
         }
 
-        /* ---------- SIDEBAR (Mobilde tam genişlik) ---------- */
+        /* SIDEBAR */
         .side-bar {
             width: 280px;
             flex-shrink: 0;
@@ -138,7 +138,6 @@
             color: #c0392b;
             border-left-color: #c0392b;
         }
-        /* Alt kategori paneli - masaüstü hover, mobil tıklama ile */
         .alt-kat-panel {
             visibility: hidden;
             opacity: 0;
@@ -205,7 +204,7 @@
         }
         .yazi-panel li a:hover { color: #c0392b; padding-left: 5px; }
 
-        /* ---------- İÇERİK ALANI ---------- */
+        /* İÇERİK */
         .content-area { flex: 1; min-width: 0; }
         .hero-slider {
             width: 100%;
@@ -247,16 +246,11 @@
         .yazi-meta { font-size: 12px; color: #95a5a6; margin: 8px 0; }
         .btn-devam { color: #0fb5bb; font-weight: 600; text-decoration: none; font-size: 13px; display: inline-block; margin-top: 10px; }
 
-        /* ---------- RESPONSIVE (MOBİL) ---------- */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .top-header { flex-direction: column; align-items: center; text-align: center; padding: 15px; }
             .logo-area { justify-content: center; }
             .header-right { justify-content: center; }
-            .social-icons-header { order: 1; }
-            .header-link { font-size: 13px; }
-            .user-icon { font-size: 24px; }
-
-            /* Hamburger menü */
             .hamburger { display: block; }
             .nav-links {
                 display: none;
@@ -271,11 +265,8 @@
             }
             .nav-links.show { display: flex; }
             .nav-links li a { padding: 12px 20px; text-align: center; }
-
-            /* Layout */
             .layout { flex-direction: column; padding: 20px 15px; gap: 20px; }
             .side-bar { width: 100%; }
-            /* Sidebar'da hover menüleri mobilde tıklama ile çalışsın */
             .alt-kat-panel, .yazi-panel {
                 position: static;
                 visibility: visible;
@@ -291,12 +282,10 @@
             }
             .ana-kat-item.active .alt-kat-panel { display: block; }
             .alt-kat-li.active .yazi-panel { display: block; }
-            .alt-kat-panel h4 { font-size: 14px; }
             .hero-slider { height: 200px; }
             .slider-content h1 { font-size: 22px; }
         }
         @media (min-width: 769px) {
-            /* Masaüstünde varsayılan hover davranışı */
             .nav-links { display: flex !important; }
         }
     </style>
@@ -314,14 +303,14 @@
             <a href="https://www.instagram.com/tasavvufkulturmirasidernegi/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://www.youtube.com/@tasavvufkulturmirasi" target="_blank"><i class="fa-brands fa-youtube"></i></a>
         </div>
-        <a href="{% url 'iletisim' %}" class="header-link"><i class="fa-solid fa-phone"></i> İletişim</a>
+        <!-- İletişim linki geçici olarak # yapıldı, sayfa hazır olunca düzeltilecek -->
+        <a href="#" class="header-link"><i class="fa-solid fa-phone"></i> İletişim</a>
         <a href="#" class="header-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
         <a href="#" class="header-link user-icon"><i class="fa-solid fa-circle-user"></i></a>
     </div>
 </header>
 
 <nav class="main-nav">
-    <div style="font-weight: bold; color:white;">☰ Menü</div>
     <button class="hamburger" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
     <ul class="nav-links" id="navLinks">
         <li><a href="{% url 'anasayfa' %}">ANA SAYFA</a></li>
@@ -408,42 +397,25 @@
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-    // Hamburger menü işlevi
     const hamburger = document.getElementById('hamburgerBtn');
     const navLinks = document.getElementById('navLinks');
     if (hamburger) {
-        hamburger.addEventListener('click', function() {
-            navLinks.classList.toggle('show');
-        });
+        hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
     }
-
-    // Mobilde sidebar menüler için tıklama desteği
     if (window.innerWidth <= 768) {
         document.querySelectorAll('.ana-kat-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-            });
+            item.addEventListener('click', (e) => { e.stopPropagation(); item.classList.toggle('active'); });
         });
         document.querySelectorAll('.alt-kat-li').forEach(li => {
-            li.addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-            });
+            li.addEventListener('click', (e) => { e.stopPropagation(); li.classList.toggle('active'); });
         });
     }
-
-    // Swiper slider
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', () => {
         new Swiper('.hero-slider', {
-            loop: true,
-            autoplay: { delay: 5000, disableOnInteraction: false },
+            loop: true, autoplay: { delay: 5000, disableOnInteraction: false },
             pagination: { el: '.swiper-pagination', clickable: true },
             navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-            effect: 'fade',
-            speed: 1000,
-            observer: true,
-            observeParents: true
+            effect: 'fade', speed: 1000, observer: true, observeParents: true
         });
     });
 </script>
