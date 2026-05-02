@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ yazi.baslik }} | Tasavvuf Kültür Mirası</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; color: #2c3e50; }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .yazi-baslik {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-left: 6px solid #c0392b;
+            padding-left: 20px;
+        }
+        .yazi-meta {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .yazi-icerik {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #34495e;
+        }
+        .yazi-icerik p {
+            margin-bottom: 20px;
+        }
+        .btn-geri {
+            display: inline-block;
+            margin-top: 40px;
+            color: #0fb5bb;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-geri:hover {
+            color: #c0392b;
+        }
+        @media (max-width: 768px) {
+            .container { margin: 20px; padding: 20px; }
+            .yazi-baslik { font-size: 28px; }
+            .yazi-icerik { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="yazi-baslik">{{ yazi.baslik }}</h1>
+        <div class="yazi-meta">
+            <i class="fa-regular fa-calendar"></i> {{ yazi.kayit_tarihi|date:"d F Y" }}
+            &nbsp;|&nbsp;
+            <i class="fa-regular fa-folder"></i> {{ yazi.kategori.isim }}
+        </div>
+        <div class="yazi-icerik">
+            {{ yazi.icerik|safe|linebreaks }}
+        </div>
+        <a href="{% url 'anasayfa' %}" class="btn-geri">
+            <i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,547 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasavvuf Kültür Mirası | Külliyat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; color: #2c3e50; }
+
+        /* HEADER */
+        .top-header {
+            padding: 20px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .site-logo {
+            height: 70px;
+            width: auto;
+        }
+        .site-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: #0a9396;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .social-icons-header {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .social-icons-header a {
+            color: #0fb5bb;
+            font-size: 20px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .social-icons-header a:hover {
+            color: #c0392b;
+            transform: translateY(-2px);
+        }
+        .vertical-divider {
+            width: 1px;
+            height: 25px;
+            background-color: #ddd;
+            margin: 0 5px;
+        }
+        .header-link {
+            color: #5d6d7e;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .header-link:hover {
+            color: #c0392b;
+        }
+        .user-icon {
+            font-size: 32px;
+            color: #0fb5bb;
+        }
+
+        /* MAIN NAV - YENİ MENÜ */
+        .main-nav {
+            background: #0fb5bb;
+            display: flex;
+            padding: 0 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            padding: 20px 30px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .nav-link:hover {
+            background: #c0392b;
+        }
+
+        /* LAYOUT */
+        .layout {
+            display: flex;
+            padding: 40px 80px;
+            gap: 40px;
+            min-height: 80vh;
+        }
+
+        /* ===== SIDEBAR - 3 SEVİYELİ MENÜ ===== */
+        .side-bar {
+            width: 280px;
+            flex-shrink: 0;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px 0;
+            height: fit-content;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .side-bar h3 {
+            margin: 0 25px 20px 25px;
+            font-size: 18px;
+            color: #2c3e50;
+            border-bottom: 3px solid #c0392b;
+            padding-bottom: 10px;
+        }
+        .ana-kat-item {
+            padding: 12px 25px;
+            cursor: pointer;
+            position: relative;
+            font-weight: 600;
+            color: #34495e;
+            display: flex;
+            justify-content: space-between;
+            transition: 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .ana-kat-item:hover {
+            background: #fff5f5;
+            color: #c0392b;
+            border-left-color: #c0392b;
+        }
+
+        /* 1. Seviye Panel */
+        .alt-kat-panel {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            width: 300px;
+            background: white;
+            box-shadow: 15px 10px 30px rgba(0,0,0,0.1);
+            border-left: 4px solid #c0392b;
+            padding: 20px;
+            z-index: 1000;
+            transition: 0.25s ease;
+            border-radius: 0 12px 12px 0;
+        }
+        .ana-kat-item:hover .alt-kat-panel {
+            visibility: visible;
+            opacity: 1;
+        }
+        .alt-kat-panel h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #c0392b;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .alt-kat-ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .alt-kat-li {
+            position: relative;
+            list-style: none;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .alt-kat-li:last-child {
+            border-bottom: none;
+        }
+        .alt-kat-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 0;
+            color: #5d6d7e;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .alt-kat-link:hover {
+            color: #c0392b;
+            padding-left: 5px;
+        }
+
+        /* 2. Seviye Yazı Paneli */
+        .yazi-panel {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            left: 100%;
+            top: -10px;
+            width: 280px;
+            background: white;
+            box-shadow: 15px 10px 30px rgba(0,0,0,0.15);
+            border-left: 4px solid #0fb5bb;
+            padding: 15px;
+            z-index: 1001;
+            transition: 0.25s ease;
+            border-radius: 0 12px 12px 0;
+        }
+        .alt-kat-li:hover .yazi-panel {
+            visibility: visible;
+            opacity: 1;
+            top: 0;
+        }
+        .yazi-panel h5 {
+            margin: 0 0 12px 0;
+            color: #0fb5bb;
+            border-bottom: 2px solid #0fb5bb;
+            padding-bottom: 8px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .yazi-panel ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .yazi-panel ul li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .yazi-panel ul li:last-child {
+            border-bottom: none;
+        }
+        .yazi-panel ul li a {
+            text-decoration: none;
+            color: #5d6d7e;
+            font-size: 13px;
+            display: block;
+            transition: 0.2s;
+        }
+        .yazi-panel ul li a:hover {
+            color: #c0392b;
+            padding-left: 8px;
+        }
+
+        /* Scrollbar */
+        .yazi-panel ul::-webkit-scrollbar, .alt-kat-panel ul::-webkit-scrollbar {
+            width: 4px;
+        }
+        .yazi-panel ul::-webkit-scrollbar-track, .alt-kat-panel ul::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .yazi-panel ul::-webkit-scrollbar-thumb, .alt-kat-panel ul::-webkit-scrollbar-thumb {
+            background: #0fb5bb;
+            border-radius: 10px;
+        }
+
+        /* ANA İÇERİK */
+        .content-area {
+            flex: 1;
+            min-width: 0;
+        }
+        .hero-slider {
+            width: 100%;
+            height: 350px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .slider-item {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        .slider-content h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .slider-content p {
+            font-size: 18px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: #0fb5bb !important;
+        }
+        .swiper-pagination-bullet-active {
+            background: #0fb5bb !important;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #2c3e50;
+            margin: 20px 0 25px 0;
+            border-left: 6px solid #c0392b;
+            padding-left: 15px;
+        }
+
+        /* Yazı kartları */
+        .yazi-listesi {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .yazi-karti {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            transition: 0.3s;
+            border-left: 4px solid #0fb5bb;
+        }
+        .yazi-karti:hover {
+            transform: translateX(6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        .yazi-karti h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        .yazi-karti h3 a {
+            text-decoration: none;
+            color: #2c3e50;
+        }
+        .yazi-karti h3 a:hover {
+            color: #c0392b;
+        }
+        .yazi-meta {
+            font-size: 12px;
+            color: #95a5a6;
+            margin-bottom: 12px;
+        }
+        .yazi-ozet {
+            color: #5d6d7e;
+            line-height: 1.5;
+        }
+        .btn-devam {
+            display: inline-block;
+            margin-top: 12px;
+            color: #0fb5bb;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-devam:hover {
+            color: #c0392b;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            background: #fff;
+            border-radius: 20px;
+            border: 2px dashed #ddd;
+            color: #95a5a6;
+        }
+
+        @media (max-width: 992px) {
+            .top-header, .main-nav, .layout {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+            .layout {
+                flex-direction: column;
+            }
+            .side-bar {
+                width: 100%;
+            }
+            .hero-slider {
+                height: 280px;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero-slider {
+                height: 220px;
+            }
+            .slider-content h1 {
+                font-size: 24px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+<header class="top-header">
+    <div class="logo-area">
+        <img src="{% static 'logo.png' %}" alt="Logo" class="site-logo">
+        <span class="site-title">TASAVVUF KÜLTÜR MİRASI</span>
+    </div>
+    <div class="header-right">
+    <div class="social-icons-header">
+        <a href="https://www.facebook.com/Tasavvufkulturmirasi" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://www.instagram.com/tasavvufkulturmirasidernegi/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@tasavvufkulturmirasi" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+
+    <a href="#" class="header-link"><i class="fa-solid fa-phone"></i> İletişim</a>
+    <a href="#" class="header-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
+    <a href="#" class="header-link user-icon"><i class="fa-solid fa-circle-user"></i></a>
+</div>
+</header>
+
+<nav class="main-nav">
+    <a href="#" class="nav-link">ANA SAYFA</a>
+    <a href="#" class="nav-link">EDEBİ ÇALIŞMALAR</a>
+    <a href="#" class="nav-link">MUSİKİ ÇALIŞMALARI</a>
+    <a href="#" class="nav-link">BLOG</a>
+    <a href="#" class="nav-link">DİJİTAL KÜTÜPHANE</a>
+</nav>
+
+<div class="layout">
+    <aside class="side-bar">
+        <h3>KÜLLİYAT</h3>
+        <div class="ana-kat-list">
+            {% for ana_kat in kategoriler %}
+                <div class="ana-kat-item">
+                    {{ ana_kat.isim }} 
+                    <i class="fa-solid fa-chevron-right" style="font-size: 11px; opacity: 0.5;"></i>
+                    <div class="alt-kat-panel">
+                        <h4>{{ ana_kat.isim }}</h4>
+                        <ul class="alt-kat-ul">
+                            {% for alt_kat in ana_kat.alt_kategoriler.all %}
+                                <li class="alt-kat-li">
+                                    <div class="alt-kat-link">
+                                        {{ alt_kat.isim }}
+                                        {% if alt_kat.yazi_set.all %}
+                                            <i class="fa-solid fa-chevron-right" style="font-size: 10px; margin-left: 5px;"></i>
+                                        {% endif %}
+                                    </div>
+                                    {% if alt_kat.yazi_set.all %}
+                                    <div class="yazi-panel">
+                                        <h5>{{ alt_kat.isim }} Yazıları</h5>
+                                        <ul>
+                                            {% for yazi in alt_kat.yazi_set.all %}
+                                                <li><a href="{% url 'yazi_detay' yazi.id %}">{{ yazi.baslik }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </li>
+                            {% empty %}
+                                <li style="color:#ccc; padding: 10px 0;">Henüz alt kategori yok.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% empty %}
+                <div style="padding: 20px; text-align: center; color: #999;">Henüz kategori eklenmemiş.</div>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <main class="content-area">
+        <div class="swiper hero-slider">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide slider-item" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{% static 'images/hallac_mahmud.jpg' %}');">
+                    <div class="slider-content">
+                        <h1>Hallaç Mahmud Hazretleri</h1>
+                        <p>Takmid Arşivi</p>
+                    </div>
+                </div>
+                <div class="swiper-slide slider-item" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{% static 'images/kuddusi_baba.jpg' %}');">
+                    <div class="slider-content">
+                        <h1>Ahmed Kuddusi Baba</h1>
+                        <p>Takmid Arşivi</p>
+                    </div>
+                </div>
+                <div class="swiper-slide slider-item" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{% static 'images/pir_ahmed_edirnevi.jpg' %}');">
+                    <div class="slider-content">
+                        <h1>Pir Ahmed Edirnevi</h1>
+                        <p>Takmid Arşivi</p>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <h2 class="section-title">Son Araştırmalar</h2>
+        {% if son_yazilar %}
+            <div class="yazi-listesi">
+                {% for yazi in son_yazilar %}
+                    <div class="yazi-karti">
+                        <h3><a href="{% url 'yazi_detay' yazi.id %}">{{ yazi.baslik }}</a></h3>
+                        <div class="yazi-meta">
+                            <i class="fa-regular fa-calendar"></i> {{ yazi.kayit_tarihi|date:"d F Y" }} 
+                            | <i class="fa-regular fa-folder"></i> {{ yazi.kategori.isim }}
+                        </div>
+                        <div class="yazi-ozet">{{ yazi.icerik|truncatewords:30|safe }}</div>
+                        <a href="{% url 'yazi_detay' yazi.id %}" class="btn-devam">Devamını oku <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fa-solid fa-feather-pointed" style="font-size: 40px; margin-bottom: 15px;"></i>
+                <p>Henüz bir içerik eklenmedi.</p>
+                <small>Yönetim panelinden yazı ekleyerek başlayabilirsiniz.</small>
+            </div>
+        {% endif %}
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new Swiper('.hero-slider', {
+            loop: true,
+            autoplay: { delay: 5000, disableOnInteraction: false },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            effect: 'fade',
+            fadeEffect: { crossFade: true },
+            speed: 1000,
+            observer: true,
+            observeParents: true
+        });
+    });
+</script>
+</body>
+</html>
