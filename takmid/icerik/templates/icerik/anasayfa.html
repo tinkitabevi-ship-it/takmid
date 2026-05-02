@@ -62,16 +62,63 @@
         .header-link:hover { color: #c0392b; }
         .user-icon { font-size: 28px; color: #0fb5bb; }
 
-        /* HAMBURGER MENU */
+        /* ========== MODERN NAVIGATION MENU ========== */
         .main-nav {
             background: #0fb5bb;
             position: sticky;
             top: 0;
             z-index: 1000;
-            padding: 0 20px;
+            padding: 0 80px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 5px;
+        }
+        .nav-links li a {
+            position: relative;
+            display: block;
+            padding: 20px 28px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .nav-links li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: #c0392b;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 3px 3px 0 0;
+        }
+        .nav-links li a:hover::before {
+            width: 70%;
+        }
+        .nav-links li a:hover {
+            background: transparent;
+            transform: translateY(-2px);
+            color: #f9e0e0;
+        }
+        .nav-links li a.active::before {
+            width: 70%;
+        }
+        .nav-links li a.active {
+            color: #fff9c4;
         }
         .hamburger {
             display: none;
@@ -81,25 +128,9 @@
             font-size: 28px;
             cursor: pointer;
             padding: 12px;
+            transition: transform 0.2s;
         }
-        .nav-links {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            transition: all 0.3s ease;
-        }
-        .nav-links li a {
-            display: block;
-            padding: 16px 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-        .nav-links li a:hover { background: #c0392b; }
+        .hamburger:hover { transform: scale(1.05); }
 
         /* LAYOUT */
         .layout {
@@ -251,6 +282,7 @@
             .top-header { flex-direction: column; align-items: center; text-align: center; padding: 15px; }
             .logo-area { justify-content: center; }
             .header-right { justify-content: center; }
+            .main-nav { padding: 0 15px; justify-content: space-between; }
             .hamburger { display: block; }
             .nav-links {
                 display: none;
@@ -261,10 +293,18 @@
                 top: 60px;
                 left: 0;
                 padding: 10px 0;
-                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+                box-shadow: 0 15px 20px rgba(0,0,0,0.1);
+                border-radius: 0 0 20px 20px;
+                gap: 0;
             }
             .nav-links.show { display: flex; }
-            .nav-links li a { padding: 12px 20px; text-align: center; }
+            .nav-links li a {
+                padding: 14px 25px;
+                text-align: center;
+                font-size: 16px;
+            }
+            .nav-links li a::before { display: none; }
+            .nav-links li a:hover { background: #c0392b; transform: none; color: white; }
             .layout { flex-direction: column; padding: 20px 15px; gap: 20px; }
             .side-bar { width: 100%; }
             .alt-kat-panel, .yazi-panel {
@@ -303,7 +343,6 @@
             <a href="https://www.instagram.com/tasavvufkulturmirasidernegi/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://www.youtube.com/@tasavvufkulturmirasi" target="_blank"><i class="fa-brands fa-youtube"></i></a>
         </div>
-        <!-- İletişim linki geçici olarak # yapıldı, sayfa hazır olunca düzeltilecek -->
         <a href="#" class="header-link"><i class="fa-solid fa-phone"></i> İletişim</a>
         <a href="#" class="header-link"><i class="fa-solid fa-circle-info"></i> Hakkımızda</a>
         <a href="#" class="header-link user-icon"><i class="fa-solid fa-circle-user"></i></a>
@@ -313,7 +352,7 @@
 <nav class="main-nav">
     <button class="hamburger" id="hamburgerBtn"><i class="fa-solid fa-bars"></i></button>
     <ul class="nav-links" id="navLinks">
-        <li><a href="{% url 'anasayfa' %}">ANA SAYFA</a></li>
+        <li><a href="{% url 'anasayfa' %}" class="active">ANA SAYFA</a></li>
         <li><a href="#">EDEBİ ÇALIŞMALAR</a></li>
         <li><a href="#">MUSİKİ ÇALIŞMALARI</a></li>
         <li><a href="#">BLOG</a></li>
@@ -397,25 +436,48 @@
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
+    // Hamburger menü işlevi
     const hamburger = document.getElementById('hamburgerBtn');
     const navLinks = document.getElementById('navLinks');
     if (hamburger) {
-        hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+            const icon = hamburger.querySelector('i');
+            if (navLinks.classList.contains('show')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
     }
+    // Mobilde tıklama ile alt menüler
     if (window.innerWidth <= 768) {
         document.querySelectorAll('.ana-kat-item').forEach(item => {
-            item.addEventListener('click', (e) => { e.stopPropagation(); item.classList.toggle('active'); });
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                item.classList.toggle('active');
+            });
         });
         document.querySelectorAll('.alt-kat-li').forEach(li => {
-            li.addEventListener('click', (e) => { e.stopPropagation(); li.classList.toggle('active'); });
+            li.addEventListener('click', (e) => {
+                e.stopPropagation();
+                li.classList.toggle('active');
+            });
         });
     }
+    // Swiper slider
     document.addEventListener('DOMContentLoaded', () => {
         new Swiper('.hero-slider', {
-            loop: true, autoplay: { delay: 5000, disableOnInteraction: false },
+            loop: true,
+            autoplay: { delay: 5000, disableOnInteraction: false },
             pagination: { el: '.swiper-pagination', clickable: true },
             navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-            effect: 'fade', speed: 1000, observer: true, observeParents: true
+            effect: 'fade',
+            speed: 1000,
+            observer: true,
+            observeParents: true
         });
     });
 </script>
